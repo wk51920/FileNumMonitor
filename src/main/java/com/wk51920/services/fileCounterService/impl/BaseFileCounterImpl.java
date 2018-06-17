@@ -1,9 +1,9 @@
 package com.wk51920.services.fileCounterService.impl;
 
-import com.wk51920.common.tools.PropTool;
 import com.wk51920.services.fileCounterService.FileCounter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -21,6 +21,8 @@ import java.util.*;
 @Component
 public class BaseFileCounterImpl implements FileCounter {
     private Logger logger = LoggerFactory.getLogger(BaseFileCounterImpl.class);
+
+    private @Value("${dirPaths}") String dirPaths;
 
     /**
      * 统计给定目录下文件的个数
@@ -73,7 +75,7 @@ public class BaseFileCounterImpl implements FileCounter {
      */
     @Override
     public Map<String, Long> getFilesCount() {
-        List<String> dirList = getDirPaths(PropTool.getProp("dirPaths"));
+        List<String> dirList = getDirPaths(this.dirPaths);
 
         if (null == dirList) {
             logger.error("dirList is null, something wrong...");
